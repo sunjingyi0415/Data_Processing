@@ -21,8 +21,8 @@ def batch_un_tar(dir, target_path):
 if __name__ == '__main__':
     #  un_tar(r'D:\pycharm_project\oct_data\second_long_20\oct_1 Nov 2021 02-27-52\oct_1 Nov 2021 02-27-52_avi_Label.tar', r'D:\pycharm_project\oct_data\combination\song')
     base_dir = r'D:\pycharm_project\oct_data'
-    dir = os.path.join(base_dir, r'second_song_25')
-    target_path =os.path.join(base_dir,r'combination',r'song')
+    dir = os.path.join(base_dir, r'first_song_45')
+    target_path = os.path.join(base_dir, r'combination', r'song1')
         # r'D:\pycharm_project\oct_data\combination\song'
 
     batch_un_tar(dir, target_path)
