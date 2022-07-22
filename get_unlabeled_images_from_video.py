@@ -11,7 +11,7 @@ test_dir = '/home/sjy/Documents/base_data/raw_test/'
 train_dir = '/home/sjy/Documents/base_data/train/'
 
 
-def video2pngs(annotations, video):
+def video2pngs(annotations, frames):
     idxtr = 0
     idxts = 0
     name = json.split('_avi_Label.json')[0]
@@ -33,6 +33,6 @@ if __name__ == '__main__':
         video_path = os.path.join(video_dir, json.replace('_avi_Label.json', '.avi'))
 
         anots = annotations_in_json(json_path)
-        # video = cv.VideoCapture(video_path)
-        # ret, frame = video.read()
-        video2pngs(anots, video_path)
+        video = cv.VideoCapture(video_path)
+        ret, frame = video.read()
+        video2pngs(anots, frame)

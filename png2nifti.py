@@ -101,39 +101,46 @@ if __name__ == '__main__':
     # now start the conversion to nnU-Net:
     #    task_name = "Task500_testpng"
     #    target_base = join(nnUNet_raw_data, task_name)
-    target_imagesTr = '/home/sjy/Documents/base_data/Task503_Oct/imagesTr'
-    #    target_imagesTs = join(target_base, "imagesTs")
-    #    target_labelsTs = join(target_base, "labelsTs")
-    #    target_labelsTr = join(target_base, "labelsTr")
-
-    #    maybe_mkdir_p(target_imagesTr)
-    #    maybe_mkdir_p(target_labelsTs)
-    #    maybe_mkdir_p(target_imagesTs)
-    #    maybe_mkdir_p(target_labelsTr)
-
-    # convert the training examples. Not all training images have labels, so we just take the cases for which there are
-    # labels
-    #    labels_dir_tr = join(base, 'training', 'output')
-    images_dir_tr = '/home/sjy/Documents/data/png/'
+    '''
+    target_imagesTr = '/nvme/nnUNetFrame/DATASET/nnUNet_raw/nnUNet_raw_data/Task505_Oct/imagesTr'
+    target_imagesTs = '/nvme/nnUNetFrame/DATASET/nnUNet_raw/nnUNet_raw_data/Task505_Oct/imagesTs'
+    images_dir_tr = '/nvme/seg_trainset'
+    images_dir_ts = '/nvme/seg_testset'
     training_cases = subfiles(images_dir_tr, suffix='.png', join=False)
+    testing_cases = subfiles(images_dir_ts, suffix='.png', join=False)
     for t in training_cases:
         unique_name = t[
-                      :-4]  # just the filename with the extension cropped away, so img-2.png becomes img-2 as unique_name
+                      :-4]
+        # just the filename with the extension cropped away, so img-2.png becomes img-2 as unique_name
         #        input_segmentation_file = join(labels_dir_tr, t)
         input_image_file = os.path.join(images_dir_tr, t)
-
         output_image_file = os.path.join(target_imagesTr,
                                          unique_name)  # do not specify a file ending! This will be done for you
         #        output_seg_file = join(target_imagesTr, unique_name)  # do not specify a file ending! This will be done for you
 
         # this utility will convert 2d images that can be read by skimage.io.imread to nifti. You don't need to do anything.
         # if this throws an error for your images, please just look at the code for this function and adapt it to your needs
-        convert_2d_image_to_nifti(input_image_file, output_image_file, spacing=(2, 1, 1), is_seg=False)
+        convert_2d_image_to_nifti(input_image_file, output_image_file, spacing=(1, 1, 1), is_seg=False)
 
         # the labels are stored as 0: background, 255: road. We need to convert the 255 to 1 because nnU-Net expects
         # the labels to be consecutive integers. This can be achieved with setting a transform
     #    convert_2d_image_to_nifti(input_segmentation_file, output_seg_file, is_seg=True,
     #                                  transform=lambda x: (x == 255).astype(int))
+
+    for s in testing_cases:
+        unique_name = s[
+                      :-4]
+        # just the filename with the extension cropped away, so img-2.png becomes img-2 as unique_name
+        #        input_segmentation_file = join(labels_dir_tr, t)
+        input_image_file = os.path.join(images_dir_ts, s)
+        output_image_file = os.path.join(target_imagesTs,
+                                         unique_name)  # do not specify a file ending! This will be done for you
+        #        output_seg_file = join(target_imagesTr, unique_name)  # do not specify a file ending! This will be done for you
+
+        # this utility will convert 2d images that can be read by skimage.io.imread to nifti. You don't need to do anything.
+        # if this throws an error for your images, please just look at the code for this function and adapt it to your needs
+        convert_2d_image_to_nifti(input_image_file, output_image_file, spacing=(1, 1, 1), is_seg=False)
+    '''
 
     """
     once this is completed, you can use the dataset like any other nnU-Net dataset. Note that since this is a 2D
@@ -153,3 +160,20 @@ if __name__ == '__main__':
     a different 2D dataset, you can make nnU-Net determine the postprocessing by using the
     `nnUNet_determine_postprocessing` command
     """
+
+    target_infer = '/nvme/nnUNetFrame/DATASET/nnUNet_raw/nnUNet_raw_data/Task505_Oct/infer_1'
+    images_dir_infer = '/nvme/cropped_png1'
+    training_cases = subfiles(images_dir_infer, suffix='.png', join=False)
+
+    for t in training_cases:
+        unique_name = t[
+                      :-4]
+        # just the filename with the extension cropped away, so img-2.png becomes img-2 as unique_name
+        #        input_segmentation_file = join(labels_dir_tr, t)
+        input_image_file = os.path.join(images_dir_infer, t)
+        output_image_file = os.path.join(target_infer,
+                                         unique_name)  # do not specify a file ending! This will be done for you
+        #        output_seg_file = join(target_imagesTr, unique_name)  # do not specify a file ending! This will be done for you
+        # this utility will convert 2d images that can be read by skimage.io.imread to nifti. You don't need to do anything.
+        # if this throws an error for your images, please just look at the code for this function and adapt it to your needs
+        convert_2d_image_to_nifti(input_image_file, output_image_file, spacing=(1, 1, 1), is_seg=False)

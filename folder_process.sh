@@ -8,7 +8,7 @@ raw=/home/sjy/Documents/raw_data
 pst=.tar
 
 # 定义变量
-
+'''
 # 拷贝视频文件
 if [ -d $base/video ]
 then
@@ -17,9 +17,9 @@ else
 echo "mkdir video"
 mkdir $base/video
 fi
+'''
 
-cp /home/sjy/Documents/raw_data/*/*.avi $base/video
-
+cp D:\\first_set\\song\\*\\*.avi D:\\first_set\\videos
 # 解压压缩文件
 if [ -d $base/tar ]
 then
@@ -29,6 +29,7 @@ echo "mkdir tar"
 mkdir $base/tar
 fi
 
+'''
 cp $raw/*/*.tar $base/tars
 
 ls $base/tars/*.tar > ls.log
@@ -63,3 +64,4 @@ mkdir $base/nii
 fi
 
 cp $base/tar/*.nii.gz $base/nii
+'''
